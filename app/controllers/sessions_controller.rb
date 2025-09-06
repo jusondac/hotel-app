@@ -15,7 +15,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    Rails.logger.info "User #{Current.user&.email_address} logging out"
     terminate_session
-    redirect_to new_session_path
+    redirect_to new_session_path, notice: "You have been signed out successfully."
   end
 end
