@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   get "home/index"
   resource :session
   resources :passwords, param: :token
-  resources :users, only: [:new, :create]
   get "dashboard", to: "dashboard#index"
   resources :account_manager, only: [:index, :new, :create] do
     member do

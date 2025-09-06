@@ -8,7 +8,6 @@
         </div>
         <div class="space-x-4">
           <%= link_to "Sign In", new_session_path, class: "text-white hover:text-amber-400 transition duration-300" %>
-          <%= link_to "Sign Up", new_user_path, class: "bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold px-6 py-2 rounded-full transition duration-300" %>
         </div>
       </div>
     </div>
@@ -70,9 +69,6 @@
           <%= link_to new_session_path, class: "group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition duration-300 transform hover:scale-105" do %>
             <span class="relative z-10">Explore Collection</span>
             <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-xl opacity-0 group-hover:opacity-20 transition duration-300"></div>
-          <% end %>
-          <%= link_to new_user_path, class: "bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold py-4 px-8 rounded-xl border border-white/30 transition duration-300 transform hover:scale-105" do %>
-            Join Our Club
           <% end %>
         </div>
       </div>
