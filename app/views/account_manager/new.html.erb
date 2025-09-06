@@ -1,0 +1,42 @@
+<!-- Page Header -->
+<div class="mb-8">
+  <div class="flex items-center">
+    <%= link_to account_manager_index_path, class: "mr-4 text-gray-400 hover:text-gray-600" do %>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+    <% end %>
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Add New User</h1>
+      <p class="mt-2 text-gray-600">Create a new user account</p>
+    </div>
+  </div>
+</div>
+
+<!-- Add User Form -->
+<div class="bg-white overflow-hidden shadow rounded-lg">
+  <div class="px-4 py-5 sm:p-6">
+    <%= form_with model: @user, url: account_manager_index_path, method: :post, class: "space-y-6" do |f| %>
+      <div>
+        <label for="user_email_address" class="block text-sm font-medium text-gray-700">
+          Email Address
+        </label>
+        <div class="mt-1">
+          <%= f.email_field :email_address, required: true, 
+                           class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                           placeholder: "user@example.com" %>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">
+          The user will be assigned a default password of "password123" and the "Staff" role.
+        </p>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <%= link_to "Cancel", account_manager_index_path, 
+                   class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-200" %>
+        <%= f.submit "Create User", 
+                   class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-200" %>
+      </div>
+    <% end %>
+  </div>
+</div>

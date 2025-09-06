@@ -1,0 +1,137 @@
+<!-- Page Header -->
+<div class="mb-8 flex justify-between items-center">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900">Account Manager</h1>
+    <p class="mt-2 text-gray-600">Manage users and their roles</p>
+  </div>
+  <%= link_to "Add New User", new_account_manager_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-200" %>
+</div>
+
+<!-- Users Table -->
+<div class="bg-white overflow-hidden shadow rounded-lg">
+  <div class="px-4 py-5 sm:p-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">All Users</h3>
+    <p class="mt-1 text-sm text-gray-500">Manage user accounts and permissions</p>
+  </div>
+  <div class="border-t border-gray-200">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              User
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Role
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Joined
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody" class="divide-y divide-gray-200">
+          <% @users.each do |user| %>
+            <tr class="hover:bg-gray-50 transition duration-200" data-user-id="<%= user.id %>">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <div class="h-10 w-10 bg-gray-300 rounded-full flex items-center justify-center">
+                      <span class="text-sm font-medium text-gray-700">
+                        <%= user.email_address.first.upcase %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">
+                      <%= user.email_address %>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <select class="role-select bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                        data-user-id="<%= user.id %>" 
+                        data-original-role="<%= user.role&.id %>">
+                  <option value="">No Role</option>
+                  <% @roles.each do |role| %>
+                    <option value="<%= role.id %>" <%= 'selected' if user.role_id == role.id %>>
+                      <%= role.name.capitalize %>
+                    </option>
+                  <% end %>
+                </select>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= user.created_at.strftime("%B %d, %Y") %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Active
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      
+      <% if @users.empty? %>
+        <div class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No users</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by creating a new user account.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle role changes
+  document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('role-select')) {
+      const userId = e.target.dataset.userId;
+      const roleId = e.target.value;
+      const originalRole = e.target.dataset.originalRole;
+      
+      if (roleId === originalRole) {
+        return; // No change
+      }
+      
+      fetch(`/account_manager/${userId}/update_role`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          role_id: roleId
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          e.target.dataset.originalRole = roleId;
+          // Show success message (you can implement a toast notification)
+          console.log('Role updated successfully');
+        } else {
+          // Revert the select to original value
+          e.target.value = originalRole;
+          alert('Error: ' + data.errors.join(', '));
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Revert the select to original value
+        e.target.value = originalRole;
+        alert('An error occurred. Please try again.');
+      });
+    }
+  });
+});
+</script>
