@@ -1,5 +1,4 @@
 <% content_for :page_title, "New Room Type" %>
-
 <div class="mb-8">
   <div class="flex items-center space-x-4">
     <%= link_to room_types_path, class: "text-gray-600 hover:text-gray-900 transition-colors" do %>
@@ -13,12 +12,10 @@
     </div>
   </div>
 </div>
-
 <%= form_with(model: @room_type, local: true, 
     html: { 
       class: "space-y-8"
     }) do |form| %>
-  
   <!-- Error Messages -->
   <% if @room_type.errors.any? %>
     <div class="bg-red-50 border border-red-200 rounded-xl p-6">
@@ -43,7 +40,6 @@
       </div>
     </div>
   <% end %>
-
   <!-- Room Type Basic Info -->
   <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-8">
     <div class="mb-6">
@@ -57,7 +53,6 @@
       </h2>
       <p class="text-gray-600 mt-2">Basic details about this room type</p>
     </div>
-    
     <div class="grid grid-cols-1 gap-6">
       <div>
         <%= form.label :name, class: "block text-sm font-semibold text-gray-700 mb-3" %>
@@ -65,7 +60,6 @@
             class: "block w-full px-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg",
             placeholder: "e.g., Deluxe Suite, Standard Room, Executive Suite" %>
       </div>
-      
       <div>
         <%= form.label :description, class: "block text-sm font-semibold text-gray-700 mb-3" %>
         <%= form.text_area :description, 
@@ -75,7 +69,6 @@
       </div>
     </div>
   </div>
-
   <!-- Form Actions -->
   <div class="flex items-center justify-end space-x-4 pt-6">
     <%= link_to "Cancel", room_types_path, 
