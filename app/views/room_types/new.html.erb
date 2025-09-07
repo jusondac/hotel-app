@@ -76,7 +76,7 @@
       </div>
     </div>
   </div>
-    <!-- Facilities Section -->
+  <!-- Facilities Section -->
   <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-8" 
        data-controller="nested-form" 
        data-nested-form-index-value="<%= @room_type.facilities.size %>">
@@ -91,23 +91,20 @@
       </h2>
       <p class="text-gray-600 mt-2">Add facilities and their associated inventories for this room type</p>
     </div>
-    
     <div data-nested-form-target="container" class="space-y-4">
       <%= form.fields_for :facilities do |facility_form| %>
         <%= render 'facility_fields', f: facility_form, inventories: @inventories %>
       <% end %>
     </div>
-    
     <template data-nested-form-target="template">
       <%= form.fields_for :facilities, Facility.new, child_index: "NEW_RECORD" do |facility_form| %>
         <%= render 'facility_fields', f: facility_form, inventories: @inventories %>
       <% end %>
     </template>
-    
     <div class="mt-6">
       <button type="button" 
               data-action="click->nested-form#addFacility"
-              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-green-700 bg-green-100 hover:bg-green-200 transition-all duration-200">
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-green-700 bg-green-100 hover:bg-green-200 transition-all duration-200">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
@@ -115,7 +112,6 @@
       </button>
     </div>
   </div>
-  
   <!-- Form Actions -->
   <div class="flex items-center justify-end space-x-4 pt-6">
     <%= link_to "Cancel", room_types_path, 
