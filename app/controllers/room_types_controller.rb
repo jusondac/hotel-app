@@ -74,7 +74,7 @@ class RoomTypesController < ApplicationController
   end
 
   def room_type_params
-    params.require(:room_type).permit(:name, :description, :price, 
-                                      facilities_attributes: [:id, :description, :inventory_id, :_destroy])
+    params.require(:room_type).permit(:name, :description, :price,
+                                      facilities_attributes: [ :id, :description, :inventory_id, :_destroy ])
   end
 end
