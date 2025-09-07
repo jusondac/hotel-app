@@ -5,7 +5,7 @@ class FacilitiesController < ApplicationController
 
   # GET /facilities
   def index
-    @facilities = Facility.includes(:room, :inventory).all
+    @facilities = Facility.includes(:room).all
   end
 
   # GET /rooms/:room_id/facilities/:id
@@ -15,7 +15,6 @@ class FacilitiesController < ApplicationController
   # GET /rooms/:room_id/facilities/new
   def new
     @facility = @room.facilities.build
-    @facility.build_inventory
   end
 
   # GET /rooms/:room_id/facilities/:id/edit
@@ -25,7 +24,6 @@ class FacilitiesController < ApplicationController
   # POST /rooms/:room_id/facilities
   def create
     @facility = @room.facilities.build(facility_params)
-    @facility.build_inventory(inventory_params) if inventory_params.present?
 
     respond_to do |format|
       if @facility.save
@@ -42,7 +40,6 @@ class FacilitiesController < ApplicationController
   def update
     respond_to do |format|
       if @facility.update(facility_params)
-        @facility.inventory&.update(inventory_params) if inventory_params.present?
         format.html { redirect_to room_facility_path(@room, @facility), notice: "Facility was successfully updated." }
         format.json { render :show, status: :ok, location: [ @room, @facility ] }
       else
@@ -73,10 +70,6 @@ class FacilitiesController < ApplicationController
   end
 
   def facility_params
-    params.require(:facility).permit(:name)
-  end
-
-  def inventory_params
-    params.dig(:facility, :inventory_attributes)&.permit(:quantity)
+    params.require(:facility).permit(:description)
   end
 end

@@ -4,7 +4,7 @@ class RoomTypesController < ApplicationController
 
   # GET /room_types or /room_types.json
   def index
-    @room_types = RoomType.includes(:facilities, :rooms).all
+    @room_types = RoomType.includes(:rooms).all
   end
 
   # GET /room_types/1 or /room_types/1.json
@@ -12,13 +12,7 @@ class RoomTypesController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        render json: @room_type.as_json(
-          include: {
-            facilities: {
-              include: :inventory
-            }
-          }
-        )
+        render json: @room_type.as_json
       }
     end
   end
@@ -26,14 +20,10 @@ class RoomTypesController < ApplicationController
   # GET /room_types/new
   def new
     @room_type = RoomType.new
-    # Start with 3 empty facilities for the form
-    3.times { @room_type.facilities.build.build_inventory }
   end
 
   # GET /room_types/1/edit
   def edit
-    # Add one empty facility if none exist
-    @room_type.facilities.build.build_inventory if @room_type.facilities.empty?
   end
 
   # POST /room_types or /room_types.json
@@ -81,8 +71,6 @@ class RoomTypesController < ApplicationController
   end
 
   def room_type_params
-    params.require(:room_type).permit(:name, :description,
-      facilities_attributes: [ :id, :name, :description, :_destroy,
-        inventory_attributes: [ :id, :quantity, :unit, :_destroy ] ])
+    params.require(:room_type).permit(:name, :description)
   end
 end

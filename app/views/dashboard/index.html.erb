@@ -137,8 +137,8 @@
                 </svg>
               </div>
               <div class="flex-1">
-                <p class="font-semibold text-gray-800"><%= inventory.facility&.name || "Unknown Facility" %></p>
-                <p class="text-sm text-gray-600">Room: <%= inventory.facility&.room&.name || "Unknown Room" %></p>
+                <p class="font-semibold text-gray-800"><%= inventory.name || "Unknown Inventory" %></p>
+                <p class="text-sm text-gray-600">Rooms: <%= inventory.rooms.pluck(:name).join(", ") if inventory.rooms.any? %></p>
               </div>
               <div>
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-red-100 to-orange-100 text-red-800">
@@ -157,7 +157,7 @@
         </div>
       <% end %>
       <div class="mt-6 pt-4 border-t border-gray-100">
-        <%= link_to "Manage inventory", facilities_path, class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
+        <%= link_to "Manage inventory", inventories_path, class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
       </div>
     </div>
   </div>

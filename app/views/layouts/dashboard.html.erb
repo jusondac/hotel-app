@@ -64,11 +64,11 @@
               </svg>
               Bookings
             <% end %>
-            <%= link_to facilities_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg' if current_page?(facilities_path)} #{!current_page?(facilities_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
+            <%= link_to inventories_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg' if current_page?(inventories_path)} #{!current_page?(inventories_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
               <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
               </svg>
-              Facilities
+              Inventories
             <% end %>
             <%= link_to account_manager_index_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-lg' if current_page?(account_manager_index_path)} #{!current_page?(account_manager_index_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
               <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,11 +126,11 @@
           </svg>
           Bookings
         <% end %>
-        <%= link_to facilities_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-purple-500 to-pink-600 text-white' if current_page?(facilities_path)} #{!current_page?(facilities_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
+        <%= link_to inventories_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-purple-500 to-pink-600 text-white' if current_page?(inventories_path)} #{!current_page?(inventories_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
           <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
           </svg>
-          Facilities
+          Inventories
         <% end %>
         <%= link_to account_manager_index_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-indigo-500 to-blue-600 text-white' if current_page?(account_manager_index_path)} #{!current_page?(account_manager_index_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
           <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

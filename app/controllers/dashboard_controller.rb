@@ -16,8 +16,7 @@ class DashboardController < ApplicationController
                               .limit(5) || []
 
     # Low inventory alerts (items with quantity < 10) with nil safety
-    @low_inventory_items = Inventory.joins(:facility)
-                                   .includes(facility: :room)
+    @low_inventory_items = Inventory.includes(:rooms)
                                    .where("quantity < ?", 10)
                                    .limit(10) || []
 

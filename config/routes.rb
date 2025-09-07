@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
   resources :room_types
   resources :bookings
-  resources :facilities, only: [ :index ]
+  resources :inventories
   resources :users, only: [ :index, :new, :create ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

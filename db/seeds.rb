@@ -51,4 +51,84 @@ staff_user = User.find_or_create_by!(email_address: "staff@hotel.com") do |user|
 end
 
 puts "Created #{User.count} users"
+
+# Create inventories for hotel management
+puts "Creating inventories..."
+
+towels_inventory = Inventory.find_or_create_by!(name: "Towels") do |inventory|
+  inventory.quantity = 50
+  inventory.unit = "pieces"
+end
+
+bed_sheets_inventory = Inventory.find_or_create_by!(name: "Bed Sheets") do |inventory|
+  inventory.quantity = 30
+  inventory.unit = "sets"
+end
+
+pillows_inventory = Inventory.find_or_create_by!(name: "Pillows") do |inventory|
+  inventory.quantity = 40
+  inventory.unit = "pieces"
+end
+
+toiletries_inventory = Inventory.find_or_create_by!(name: "Toiletries") do |inventory|
+  inventory.quantity = 100
+  inventory.unit = "sets"
+end
+
+tv_inventory = Inventory.find_or_create_by!(name: "Television") do |inventory|
+  inventory.quantity = 20
+  inventory.unit = "units"
+end
+
+puts "Created #{Inventory.count} inventories"
+
+# Create room types
+puts "Creating room types..."
+
+standard_room_type = RoomType.find_or_create_by!(name: "Standard Room") do |room_type|
+  room_type.description = "Comfortable room with basic amenities"
+end
+
+deluxe_room_type = RoomType.find_or_create_by!(name: "Deluxe Room") do |room_type|
+  room_type.description = "Spacious room with premium amenities"
+end
+
+suite_room_type = RoomType.find_or_create_by!(name: "Suite") do |room_type|
+  room_type.description = "Luxury suite with separate living area"
+end
+
+puts "Created #{RoomType.count} room types"
+
+# Create rooms with inventory assignments
+puts "Creating rooms..."
+
+# Standard rooms with basic inventory
+(101..105).each do |room_number|
+  Room.find_or_create_by!(name: "Room #{room_number}") do |room|
+    room.room_type = standard_room_type
+    room.price = 100.00
+    room.inventory = towels_inventory
+  end
+end
+
+# Deluxe rooms with premium inventory
+(201..203).each do |room_number|
+  Room.find_or_create_by!(name: "Room #{room_number}") do |room|
+    room.room_type = deluxe_room_type
+    room.price = 150.00
+    room.inventory = bed_sheets_inventory
+  end
+end
+
+# Suites with luxury inventory
+(301..302).each do |room_number|
+  Room.find_or_create_by!(name: "Suite #{room_number}") do |room|
+    room.room_type = suite_room_type
+    room.price = 250.00
+    room.inventory = tv_inventory
+  end
+end
+
+puts "Created #{Room.count} rooms"
+
 puts "Seeding completed successfully!"

@@ -37,16 +37,17 @@
         <%= form.text_field :name, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", placeholder: "e.g., Suite 101, Deluxe Room A" %>
       </div>
       <div>
-        <%= form.label :room_type, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.select :room_type, 
-            options_for_select([
-              ['Standard Room', 'standard'],
-              ['Deluxe Room', 'deluxe'],
-              ['Suite', 'suite'],
-              ['Executive Suite', 'executive'],
-              ['Presidential Suite', 'presidential']
-            ], @room.room_type), 
+        <%= form.label :room_type_id, "Room Type", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.select :room_type_id, 
+            options_from_collection_for_select(@room_types, :id, :name, @room.room_type_id), 
             { prompt: 'Select room type' }, 
+            { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %>
+      </div>
+      <div>
+        <%= form.label :inventory_id, "Inventory", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.select :inventory_id, 
+            options_from_collection_for_select(@inventories, :id, :name, @room.inventory_id), 
+            { prompt: 'Select inventory' }, 
             { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %>
       </div>
       <div>

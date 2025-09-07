@@ -3,7 +3,7 @@
   <div class="flex justify-between items-center">
     <div>
       <h1 class="text-3xl font-bold text-gray-900"><%= @room.name %></h1>
-      <p class="mt-2 text-gray-600"><%= @room.room_type.humanize %> • $<%= number_with_precision(@room.price, precision: 2) %> per night</p>
+      <p class="mt-2 text-gray-600"><%= @room.room_type&.name || 'No room type' %> • $<%= number_with_precision(@room.price, precision: 2) %> per night</p>
     </div>
     <div class="flex space-x-3">
       <%= link_to "Edit Room", edit_room_path(@room), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
@@ -26,7 +26,11 @@
           </div>
           <div>
             <dt class="text-sm font-medium text-gray-500">Room Type</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @room.room_type.humanize %></dd>
+            <dd class="mt-1 text-sm text-gray-900"><%= @room.room_type&.name || 'No room type' %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Inventory</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @room.inventory&.name || 'No inventory assigned' %></dd>
           </div>
           <div>
             <dt class="text-sm font-medium text-gray-500">Price per Night</dt>
@@ -95,21 +99,11 @@
   <div class="px-6 py-4">
     <% if @room.facilities.any? %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% @room.facilities.includes(:inventory).each do |facility| %>
+        <% @room.facilities.each do |facility| %>
           <div class="border border-gray-200 rounded-lg p-4">
             <div class="flex justify-between items-start">
               <div>
-                <h4 class="text-sm font-medium text-gray-900"><%= facility.name %></h4>
-                <% if facility.inventory %>
-                  <p class="text-sm text-gray-500">Quantity: <%= facility.inventory.quantity %></p>
-                  <% if facility.inventory.quantity < 5 %>
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-1">
-                      Low Stock
-                    </span>
-                  <% end %>
-                <% else %>
-                  <p class="text-sm text-gray-500">No inventory data</p>
-                <% end %>
+                <p class="text-sm text-gray-900"><%= facility.description %></p>
               </div>
               <div class="flex space-x-1">
                 <%= link_to "Edit", edit_room_facility_path(@room, facility), class: "text-xs text-blue-600 hover:text-blue-900" %>

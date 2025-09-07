@@ -1,9 +1,5 @@
 class Facility < ApplicationRecord
-  belongs_to :room, optional: true
-  belongs_to :room_type, optional: true
-  has_one :inventory, dependent: :destroy
+  belongs_to :room
 
-  validates :name, presence: true
-
-  accepts_nested_attributes_for :inventory, allow_destroy: true
+  validates :description, presence: true
 end
