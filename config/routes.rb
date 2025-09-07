@@ -3,11 +3,13 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   get "dashboard", to: "dashboard#index"
-  resources :account_manager, only: [:index, :new, :create] do
+  resources :account_manager, only: [ :index, :new, :create ] do
     member do
       patch :update_role
     end
   end
+  resources :rooms
+  resources :bookings
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

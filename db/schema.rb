@@ -10,13 +10,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_06_063043) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_014206) do
+  create_table "bookings", force: :cascade do |t|
+    t.string "guest_name"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_bookings_on_room_id"
+  end
+
+  create_table "facilities", force: :cascade do |t|
+    t.string "name"
+    t.integer "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_facilities_on_room_id"
+  end
+
+  create_table "inventories", force: :cascade do |t|
+    t.integer "quantity"
+    t.integer "facility_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facility_id"], name: "index_inventories_on_facility_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "payment_date"
+    t.integer "booking_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_roles_on_name", unique: true
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.string "room_type"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -38,6 +81,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_06_063043) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "bookings", "rooms"
+  add_foreign_key "facilities", "rooms"
+  add_foreign_key "inventories", "facilities"
+  add_foreign_key "payments", "bookings"
   add_foreign_key "sessions", "users"
   add_foreign_key "users", "roles"
 end
