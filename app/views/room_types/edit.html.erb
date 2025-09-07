@@ -77,7 +77,9 @@
     </div>
   </div>
   <!-- Facilities Section -->
-  <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-8">
+  <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-8" 
+       data-controller="nested-form" 
+       data-nested-form-index-value="<%= @room_type.facilities.size %>">
     <div class="mb-6">
       <h2 class="text-2xl font-bold text-gray-900 flex items-center">
         <div class="bg-gradient-to-r from-green-500 to-teal-600 p-3 rounded-xl mr-4">
@@ -89,28 +91,38 @@
       </h2>
       <p class="text-gray-600 mt-2">Manage facilities and their associated inventories for this room type</p>
     </div>
-    <div id="facilities" class="space-y-4">
+    
+    <div data-nested-form-target="container" class="space-y-4">
       <%= form.fields_for :facilities do |facility_form| %>
         <%= render 'facility_fields', f: facility_form, inventories: @inventories %>
       <% end %>
     </div>
+    
+    <template data-nested-form-target="template">
+      <%= form.fields_for :facilities, @room_type.facilities.build, child_index: "NEW_RECORD" do |facility_form| %>
+        <%= render 'facility_fields', f: facility_form, inventories: @inventories %>
+      <% end %>
+    </template>
+    
     <div class="mt-6">
-      <%= link_to "Add Facility", "#", 
-          id: "add_facility",
-          class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-green-700 bg-green-100 hover:bg-green-200 transition-all duration-200" do %>
+      <button type="button" 
+              data-action="click->nested-form#addFacility"
+              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-green-700 bg-green-100 hover:bg-green-200 transition-all duration-200">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
         Add Facility
-      <% end %>
+      </button>
     </div>
   </div>
   <!-- Form Actions -->
   <div class="flex items-center justify-end space-x-4 pt-6">
-    <%= link_to "Cancel", @room_type, 
+        <%= link_to "Cancel", @room_type, 
         class: "px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all duration-200" %>
     <%= form.submit "Update Room Type", 
         class: "bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" %>
+  </div>
+<% end %>
   </div>
 <% end %>
 <script>

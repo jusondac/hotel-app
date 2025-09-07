@@ -52,8 +52,8 @@
         </svg>
       </div>
       <div class="ml-4">
-        <p class="text-sm font-medium text-gray-600">Rooms Supplied</p>
-        <p class="text-2xl font-bold text-gray-900"><%= @inventories.sum { |inv| inv.rooms.count } %></p>
+        <p class="text-sm font-medium text-gray-600">Facilities Supplied</p>
+        <p class="text-2xl font-bold text-gray-900"><%= @inventories.sum { |inv| inv.facilities.count } %></p>
       </div>
     </div>
   </div>
@@ -111,7 +111,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
                 </svg>
-                <span>Rooms</span>
+                <span>Facilities</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
@@ -164,8 +164,8 @@
                   <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
                   </svg>
-                  <span class="font-medium"><%= inventory.rooms.count %></span>
-                  <span class="text-gray-400 ml-1">rooms</span>
+                  <span class="font-medium"><%= inventory.facilities.count %></span>
+                  <span class="text-gray-400 ml-1">facilities</span>
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
