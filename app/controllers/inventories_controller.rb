@@ -1,4 +1,5 @@
 class InventoriesController < ApplicationController
+  layout "dashboard"
   before_action :set_inventory, only: %i[show edit update destroy]
 
   # GET /inventories

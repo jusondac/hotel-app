@@ -20,10 +20,13 @@ class RoomTypesController < ApplicationController
   # GET /room_types/new
   def new
     @room_type = RoomType.new
+    3.times { @room_type.facilities.build }
   end
 
   # GET /room_types/1/edit
   def edit
+    # Build additional facility fields if needed
+    3.times { @room_type.facilities.build } if @room_type.facilities.empty?
   end
 
   # POST /room_types or /room_types.json
@@ -71,6 +74,6 @@ class RoomTypesController < ApplicationController
   end
 
   def room_type_params
-    params.require(:room_type).permit(:name, :description)
+    params.require(:room_type).permit(:name, :description, facilities_attributes: [:id, :name, :_destroy])
   end
 end
