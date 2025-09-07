@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
 
   # GET /rooms or /rooms.json
   def index
-    @rooms = Room.all
+    @rooms = Room.includes(:room_type).all
   end
 
   # GET /rooms/1 or /rooms/1.json
