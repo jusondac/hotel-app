@@ -20,10 +20,13 @@ class RoomTypesController < ApplicationController
   # GET /room_types/new
   def new
     @room_type = RoomType.new
+    @room_type.facilities.build
+    @inventories = Inventory.all
   end
 
   # GET /room_types/1/edit
   def edit
+    @inventories = Inventory.all
   end
 
   # POST /room_types or /room_types.json
@@ -71,6 +74,7 @@ class RoomTypesController < ApplicationController
   end
 
   def room_type_params
-    params.require(:room_type).permit(:name, :description)
+    params.require(:room_type).permit(:name, :description, :price, 
+                                      facilities_attributes: [:id, :description, :inventory_id, :_destroy])
   end
 end

@@ -58,14 +58,6 @@
               placeholder: "e.g., Room 101, Executive Suite A" %>
         </div>
         <div>
-          <%= form.label :price, "Price per Night ($)", class: "block text-sm font-medium text-gray-700 mb-2" %>
-          <%= form.number_field :price, 
-              step: 0.01,
-              min: 0,
-              class: "block w-full px-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200",
-              placeholder: "0.00" %>
-        </div>
-        <div class="md:col-span-2">
           <%= form.label :room_type_id, "Room Type", class: "block text-sm font-medium text-gray-700 mb-2" %>
           <% if @room_types.any? %>
             <%= form.select :room_type_id, 
@@ -87,33 +79,6 @@
                   <p class="text-sm text-yellow-800">
                     No room types available. 
                     <%= link_to "Create a room type first", new_room_type_path, class: "font-medium underline hover:text-yellow-900" %>
-                  </p>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-        <div class="md:col-span-2">
-          <%= form.label :inventory_id, "Inventory", class: "block text-sm font-medium text-gray-700 mb-2" %>
-          <% if @inventories.any? %>
-            <%= form.select :inventory_id, 
-                options_from_collection_for_select(@inventories, :id, :name, @room.inventory_id), 
-                { prompt: "Select an inventory..." },
-                { 
-                  class: "block w-full px-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
-                } %>
-          <% else %>
-            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <svg class="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                  </svg>
-                </div>
-                <div class="ml-3">
-                  <p class="text-sm text-yellow-800">
-                    No inventories available. 
-                    <%= link_to "Create an inventory first", new_inventory_path, class: "font-medium underline hover:text-yellow-900" %>
                   </p>
                 </div>
               </div>

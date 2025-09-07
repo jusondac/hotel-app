@@ -1,9 +1,10 @@
 class Room < ApplicationRecord
-  belongs_to :room_type, optional: true
-  belongs_to :inventory, optional: true
-  has_many :facilities, dependent: :destroy
+  belongs_to :room_type
   has_many :bookings, dependent: :destroy
 
   validates :name, presence: true
-  validates :price, presence: true, numericality: { greater_than: 0 }
+
+  # Delegate facilities to room_type
+  delegate :facilities, to: :room_type
+  delegate :price, to: :room_type
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_024915) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_084301) do
   create_table "bookings", force: :cascade do |t|
     t.string "guest_name"
     t.date "start_date"
@@ -26,7 +26,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_024915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.integer "inventory_id", null: false
+    t.integer "room_type_id", null: false
+    t.index ["inventory_id"], name: "index_facilities_on_inventory_id"
     t.index ["room_id"], name: "index_facilities_on_room_id"
+    t.index ["room_type_id"], name: "index_facilities_on_room_type_id"
   end
 
   create_table "inventories", force: :cascade do |t|
@@ -59,17 +63,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_024915) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price"
   end
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
-    t.string "room_type"
-    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "room_type_id"
-    t.integer "inventory_id"
-    t.index ["inventory_id"], name: "index_rooms_on_inventory_id"
     t.index ["room_type_id"], name: "index_rooms_on_room_type_id"
   end
 
@@ -93,9 +94,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_024915) do
   end
 
   add_foreign_key "bookings", "rooms"
+  add_foreign_key "facilities", "inventories"
+  add_foreign_key "facilities", "room_types"
   add_foreign_key "facilities", "rooms"
   add_foreign_key "payments", "bookings"
-  add_foreign_key "rooms", "inventories"
   add_foreign_key "rooms", "room_types"
   add_foreign_key "sessions", "users"
   add_foreign_key "users", "roles"

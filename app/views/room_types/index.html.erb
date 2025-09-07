@@ -67,7 +67,8 @@
         <div class="flex items-start justify-between">
           <div class="flex-1">
             <h3 class="text-xl font-bold text-gray-900 mb-2"><%= room_type.name %></h3>
-            <p class="text-gray-600 text-sm leading-relaxed"><%= room_type.description %></p>
+            <p class="text-gray-600 text-sm leading-relaxed mb-2"><%= room_type.description %></p>
+            <p class="text-lg font-bold text-green-600">$<%= number_with_precision(room_type.price, precision: 2) %> per night</p>
           </div>
           <div class="flex items-center space-x-2 ml-4">
             <%= link_to room_type_path(room_type), class: "p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200", title: "View Details" do %>
@@ -99,6 +100,10 @@
             <div class="text-center">
               <div class="text-lg font-bold text-gray-900"><%= room_type.rooms.count %></div>
               <div class="text-xs text-gray-500">Rooms</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg font-bold text-gray-900"><%= room_type.facilities.count %></div>
+              <div class="text-xs text-gray-500">Facilities</div>
             </div>
             <div class="text-center">
               <div class="text-lg font-bold text-gray-900"><%= room_type.created_at.strftime("%b %Y") %></div>
