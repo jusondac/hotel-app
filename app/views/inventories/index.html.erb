@@ -234,3 +234,34 @@
     </div>
   <% end %>
 </div>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <%= inventory.name %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <%= inventory.quantity %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <%= inventory.unit %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <%= inventory.rooms.count %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+            <%= link_to "View", inventory, class: "text-blue-600 hover:text-blue-900 mr-3" %>
+            <%= link_to "Edit", edit_inventory_path(inventory), class: "text-indigo-600 hover:text-indigo-900 mr-3" %>
+            <%= link_to "Delete", inventory, method: :delete, 
+                confirm: "Are you sure?", 
+                class: "text-red-600 hover:text-red-900" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @inventories.empty? %>
+    <div class="text-center py-8">
+      <p class="text-gray-500">No inventories found.</p>
+      <%= link_to "Create your first inventory", new_inventory_path, class: "text-blue-600 hover:text-blue-900" %>
+    </div>
+  <% end %>
+</div>

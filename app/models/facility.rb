@@ -1,6 +1,5 @@
 class Facility < ApplicationRecord
-  belongs_to :room, optional: true
-  belongs_to :room_type, optional: true
+  belongs_to :room
 
-  validates :name, presence: true
+  validates :description, presence: true
 end
