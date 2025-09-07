@@ -1,4 +1,5 @@
 class FacilitiesController < ApplicationController
+  layout "dashboard"
   before_action :set_room, only: [ :show, :new, :create, :edit, :update, :destroy ]
   before_action :set_facility, only: [ :show, :edit, :update, :destroy ]
 

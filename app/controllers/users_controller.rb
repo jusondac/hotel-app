@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
+  layout "dashboard", except: [ :new, :create ]
   allow_unauthenticated_access only: %i[ new create ]
+
+  def index
+    @users = User.includes(:role).all
+  end
 
   def new
     @user = User.new

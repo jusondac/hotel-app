@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  layout "dashboard"
   before_action :set_room, only: %i[ show edit update destroy ]
 
   # GET /rooms or /rooms.json

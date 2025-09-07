@@ -17,51 +17,119 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-  <body class="bg-gray-100">
-    <!-- Navigation Header -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+  <body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <!-- Navigation Header with FLAT UI Design -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-lg shadow-slate-200/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
+          <!-- Logo Section -->
           <div class="flex items-center">
-            <div class="text-2xl font-bold text-gray-900">
-              <span class="text-amber-500">✦</span> Grand Hotels
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                  Grand Hotels
+                </div>
+                <div class="text-xs text-gray-500 -mt-1">Management System</div>
+              </div>
             </div>
-            <span class="ml-4 text-sm text-gray-500">Management System</span>
           </div>
           <!-- Navigation Menu -->
-          <div class="hidden md:flex items-center space-x-8">
-            <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium #{'border-b-2 border-blue-600 text-blue-600' if current_page?(dashboard_path)}" %>
-            <%= link_to "Rooms", rooms_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium #{'border-b-2 border-blue-600 text-blue-600' if current_page?(rooms_path)}" %>
-            <%= link_to "Bookings", bookings_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium #{'border-b-2 border-blue-600 text-blue-600' if current_page?(bookings_path)}" %>
-            <%= link_to "Facilities", facilities_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium #{'border-b-2 border-blue-600 text-blue-600' if current_page?(facilities_path)}" %>
-            <%= link_to "Users", account_manager_index_path, class: "text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium #{'border-b-2 border-blue-600 text-blue-600' if current_page?(account_manager_index_path)}" %>
+          <div class="hidden lg:flex items-center space-x-1">
+            <%= link_to dashboard_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg' if current_page?(dashboard_path)} #{!current_page?(dashboard_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
+              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              Dashboard
+            <% end %>
+            <%= link_to rooms_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg' if current_page?(rooms_path)} #{!current_page?(rooms_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
+              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              Rooms
+            <% end %>
+            <%= link_to bookings_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg' if current_page?(bookings_path)} #{!current_page?(bookings_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
+              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+              </svg>
+              Bookings
+            <% end %>
+            <%= link_to facilities_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg' if current_page?(facilities_path)} #{!current_page?(facilities_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
+              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+              Facilities
+            <% end %>
+            <%= link_to account_manager_index_path, class: "group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-lg' if current_page?(account_manager_index_path)} #{!current_page?(account_manager_index_path) ? 'text-gray-600 hover:text-gray-800 hover:bg-white/60' : ''}" do %>
+              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+              </svg>
+              Users
+            <% end %>
           </div>
+          <!-- User Profile Section -->
           <div class="flex items-center space-x-4">
-            <span class="text-sm text-gray-700">Welcome, <%= Current.user&.email_address || "User" %></span>
-            <div class="flex items-center space-x-2">
-              <% if Current.user&.role %>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                  <%= Current.user.role.name %>
-                </span>
-              <% end %>
-              <%= button_to "Sign Out", session_path, method: :delete, class: "text-gray-500 hover:text-gray-700 text-sm bg-transparent border-none cursor-pointer" %>
+            <div class="hidden sm:flex items-center space-x-3">
+              <div class="text-right">
+                <div class="text-sm font-medium text-gray-700"><%= Current.user&.email_address&.split('@')&.first || "User" %></div>
+                <% if Current.user&.role %>
+                  <div class="text-xs text-gray-500"><%= Current.user.role.name %></div>
+                <% end %>
+              </div>
+              <div class="w-8 h-8 bg-gradient-to-r from-violet-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-white text-sm font-bold"><%= Current.user&.email_address&.first&.upcase || "U" %></span>
+              </div>
             </div>
+            <%= button_to session_path, method: :delete, class: "group p-2 rounded-xl text-gray-500 hover:text-red-600 hover:bg-red-50 transition-all duration-200" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+            <% end %>
           </div>
         </div>
       </div>
     </nav>
-    <!-- Mobile menu (hidden by default) -->
-    <div class="md:hidden bg-white border-b border-gray-200">
-      <div class="px-2 pt-2 pb-3 space-y-1">
-        <%= link_to "Dashboard", dashboard_path, class: "block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 #{'bg-blue-50 text-blue-600' if current_page?(dashboard_path)}" %>
-        <%= link_to "Rooms", rooms_path, class: "block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 #{'bg-blue-50 text-blue-600' if current_page?(rooms_path)}" %>
-        <%= link_to "Bookings", bookings_path, class: "block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 #{'bg-blue-50 text-blue-600' if current_page?(bookings_path)}" %>
-        <%= link_to "Facilities", facilities_path, class: "block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 #{'bg-blue-50 text-blue-600' if current_page?(facilities_path)}" %>
-        <%= link_to "Users", account_manager_index_path, class: "block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 #{'bg-blue-50 text-blue-600' if current_page?(account_manager_index_path)}" %>
+    <!-- Mobile Navigation -->
+    <div class="lg:hidden bg-white/90 backdrop-blur-md border-b border-white/20">
+      <div class="px-4 py-3 space-y-2">
+        <%= link_to dashboard_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-blue-500 to-purple-600 text-white' if current_page?(dashboard_path)} #{!current_page?(dashboard_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
+          <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          Dashboard
+        <% end %>
+        <%= link_to rooms_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-emerald-500 to-teal-600 text-white' if current_page?(rooms_path)} #{!current_page?(rooms_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
+          <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+          Rooms
+        <% end %>
+        <%= link_to bookings_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-orange-500 to-red-500 text-white' if current_page?(bookings_path)} #{!current_page?(bookings_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
+          <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+          Bookings
+        <% end %>
+        <%= link_to facilities_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-purple-500 to-pink-600 text-white' if current_page?(facilities_path)} #{!current_page?(facilities_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
+          <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+          Facilities
+        <% end %>
+        <%= link_to account_manager_index_path, class: "flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 #{'bg-gradient-to-r from-indigo-500 to-blue-600 text-white' if current_page?(account_manager_index_path)} #{!current_page?(account_manager_index_path) ? 'text-gray-600 hover:bg-white/60' : ''}" do %>
+          <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+          Users
+        <% end %>
       </div>
     </div>
     <!-- Main Content -->
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <%= yield %>
     </div>
   </body>

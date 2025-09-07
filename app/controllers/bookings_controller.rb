@@ -1,4 +1,5 @@
 class BookingsController < ApplicationController
+  layout "dashboard"
   before_action :set_booking, only: %i[ show edit update destroy ]
 
   # GET /bookings or /bookings.json
