@@ -1,0 +1,199 @@
+<% content_for :page_title, "Bookings Management" %>
+<!-- Page Header -->
+<div class="mb-8">
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Bookings Management</h1>
+      <p class="mt-2 text-gray-600">Manage hotel reservations and guest bookings</p>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to "New Booking", new_booking_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+    </div>
+  </div>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Total Bookings</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @bookings.count %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Active Now</dt>
+            <dd class="text-lg font-medium text-gray-900">
+              <%= @bookings.where("start_date <= ? AND end_date >= ?", Date.current, Date.current).count %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Check-in Today</dt>
+            <dd class="text-lg font-medium text-gray-900">
+              <%= @bookings.where(start_date: Date.current).count %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Check-out Today</dt>
+            <dd class="text-lg font-medium text-gray-900">
+              <%= @bookings.where(end_date: Date.current).count %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bookings Table -->
+<div class="bg-white shadow rounded-lg">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-medium text-gray-900">All Bookings</h3>
+  </div>
+  <div class="overflow-x-auto">
+    <% if @bookings.any? %>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Guest</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-in</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-out</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @bookings.each do |booking| %>
+            <% 
+              today = Date.current
+              is_current = booking.start_date <= today && booking.end_date >= today
+              is_past = booking.end_date < today
+              is_future = booking.start_date > today
+            %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-medium text-blue-600"><%= booking.guest_name.first %></span>
+                  </div>
+                  <div class="ml-3">
+                    <div class="text-sm font-medium text-gray-900"><%= booking.guest_name %></div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900"><%= booking.room.name %></div>
+                <div class="text-sm text-gray-500"><%= booking.room.room_type.humanize %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= booking.start_date %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= booking.end_date %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= pluralize((booking.end_date - booking.start_date).to_i, 'night') %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if is_current %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Active
+                  </span>
+                <% elsif is_past %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    Completed
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    Upcoming
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                $<%= number_with_precision(booking.payments.sum(:amount), precision: 2) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex space-x-2">
+                  <%= link_to "View", booking, class: "text-blue-600 hover:text-blue-900" %>
+                  <%= link_to "Edit", edit_booking_path(booking), class: "text-indigo-600 hover:text-indigo-900" %>
+                  <% if is_current %>
+                    <%= link_to "Extend", booking, class: "text-green-600 hover:text-green-900" %>
+                  <% end %>
+                  <%= link_to "Delete", booking, method: :delete, 
+                      confirm: "Are you sure?", 
+                      class: "text-red-600 hover:text-red-900" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No bookings</h3>
+        <p class="mt-1 text-sm text-gray-500">Get started by creating your first booking.</p>
+        <div class="mt-6">
+          <%= link_to "Create Booking", new_booking_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

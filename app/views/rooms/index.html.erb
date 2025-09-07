@@ -1,0 +1,175 @@
+<% content_for :page_title, "Rooms Management" %>
+<!-- Page Header -->
+<div class="mb-8">
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Rooms Management</h1>
+      <p class="mt-2 text-gray-600">Manage hotel rooms, types, and pricing</p>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to "Add New Room", new_room_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+    </div>
+  </div>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Total Rooms</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @rooms.count %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Available</dt>
+            <dd class="text-lg font-medium text-gray-900">
+              <%= @rooms.left_joins(:bookings)
+                    .where("bookings.id IS NULL OR bookings.end_date < ? OR bookings.start_date > ?", 
+                           Date.current, Date.current).distinct.count %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Occupied</dt>
+            <dd class="text-lg font-medium text-gray-900">
+              <%= @rooms.joins(:bookings)
+                    .where("bookings.start_date <= ? AND bookings.end_date >= ?", 
+                           Date.current, Date.current).distinct.count %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Avg. Price</dt>
+            <dd class="text-lg font-medium text-gray-900">$<%= number_with_precision(@rooms.average(:price) || 0, precision: 0) %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Rooms Table -->
+<div class="bg-white shadow rounded-lg">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-medium text-gray-900">All Rooms</h3>
+  </div>
+  <div class="overflow-x-auto">
+    <% if @rooms.any? %>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price/Night</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Facilities</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @rooms.each do |room| %>
+            <% current_booking = room.bookings.where("start_date <= ? AND end_date >= ?", Date.current, Date.current).first %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900"><%= room.name %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900"><%= room.room_type %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">$<%= number_with_precision(room.price, precision: 2) %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if current_booking %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    Occupied
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Available
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">
+                  <%= pluralize(room.facilities.count, 'facility') %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex space-x-2">
+                  <%= link_to "View", room, class: "text-blue-600 hover:text-blue-900" %>
+                  <%= link_to "Edit", edit_room_path(room), class: "text-indigo-600 hover:text-indigo-900" %>
+                  <%= link_to "Facilities", room_facilities_path(room), class: "text-green-600 hover:text-green-900" %>
+                  <%= link_to "Delete", room, method: :delete, 
+                      confirm: "Are you sure?", 
+                      class: "text-red-600 hover:text-red-900" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No rooms</h3>
+        <p class="mt-1 text-sm text-gray-500">Get started by creating your first room.</p>
+        <div class="mt-6">
+          <%= link_to "Add Room", new_room_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

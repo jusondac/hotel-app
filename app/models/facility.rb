@@ -3,4 +3,6 @@ class Facility < ApplicationRecord
   has_one :inventory, dependent: :destroy
 
   validates :name, presence: true
+
+  accepts_nested_attributes_for :inventory, allow_destroy: true
 end

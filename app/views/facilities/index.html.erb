@@ -1,0 +1,153 @@
+<% content_for :page_title, "Facilities & Inventory" %>
+<!-- Page Header -->
+<div class="mb-8">
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Facilities & Inventory</h1>
+      <p class="mt-2 text-gray-600">Manage hotel facilities and their inventory levels</p>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to "Manage Rooms", rooms_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+    </div>
+  </div>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Total Facilities</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @facilities.count %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Low Inventory</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @facilities.joins(:inventory).where("inventories.quantity < ?", 5).count %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Well Stocked</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @facilities.joins(:inventory).where("inventories.quantity >= ?", 5).count %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Facilities Table -->
+<div class="bg-white shadow rounded-lg">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-medium text-gray-900">All Facilities</h3>
+  </div>
+  <div class="overflow-x-auto">
+    <% if @facilities.any? %>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Facility Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room Type</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Inventory</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @facilities.each do |facility| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900"><%= facility.name %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900"><%= facility.room.name %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500"><%= facility.room.room_type %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">
+                  <%= facility.inventory&.quantity || 'N/A' %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if facility.inventory&.quantity %>
+                  <% if facility.inventory.quantity < 5 %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      Low Stock
+                    </span>
+                  <% elsif facility.inventory.quantity < 10 %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      Medium Stock
+                    </span>
+                  <% else %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Well Stocked
+                    </span>
+                  <% end %>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    No Inventory
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex space-x-2">
+                  <%= link_to "View", room_facility_path(facility.room, facility), class: "text-blue-600 hover:text-blue-900" %>
+                  <%= link_to "Edit", edit_room_facility_path(facility.room, facility), class: "text-indigo-600 hover:text-indigo-900" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No facilities</h3>
+        <p class="mt-1 text-sm text-gray-500">Get started by creating rooms and adding facilities to them.</p>
+        <div class="mt-6">
+          <%= link_to "Create Room", new_room_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

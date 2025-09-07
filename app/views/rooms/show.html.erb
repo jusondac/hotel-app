@@ -1,0 +1,175 @@
+<% content_for :page_title, @room.name %>
+<div class="mb-8">
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900"><%= @room.name %></h1>
+      <p class="mt-2 text-gray-600"><%= @room.room_type.humanize %> • $<%= number_with_precision(@room.price, precision: 2) %> per night</p>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to "Edit Room", edit_room_path(@room), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+      <%= link_to "Add Facility", new_room_facility_path(@room), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+    </div>
+  </div>
+</div>
+<!-- Room Details Card -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+  <div class="lg:col-span-2">
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900">Room Information</h3>
+      </div>
+      <div class="px-6 py-4">
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Room Name</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @room.name %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Room Type</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @room.room_type.humanize %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Price per Night</dt>
+            <dd class="mt-1 text-sm text-gray-900">$<%= number_with_precision(@room.price, precision: 2) %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Total Facilities</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= pluralize(@room.facilities.count, 'facility') %></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+    <!-- Current Booking -->
+    <% current_booking = @room.bookings.where("start_date <= ? AND end_date >= ?", Date.current, Date.current).first %>
+    <div class="bg-white shadow rounded-lg mt-6">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900">Current Status</h3>
+      </div>
+      <div class="px-6 py-4">
+        <% if current_booking %>
+          <div class="flex items-center space-x-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+              Occupied
+            </span>
+            <div>
+              <p class="text-sm text-gray-900">Guest: <strong><%= current_booking.guest_name %></strong></p>
+              <p class="text-sm text-gray-500">
+                <%= current_booking.start_date %> to <%= current_booking.end_date %>
+                (<%= (current_booking.end_date - Date.current).to_i %> days remaining)
+              </p>
+            </div>
+          </div>
+        <% else %>
+          <div class="flex items-center space-x-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Available
+            </span>
+            <p class="text-sm text-gray-900">This room is available for booking</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- Quick Actions -->
+  <div>
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
+      </div>
+      <div class="px-6 py-4 space-y-3">
+        <%= link_to "Book This Room", new_booking_path(room_id: @room.id), class: "w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+        <%= link_to "View All Bookings", bookings_path(room_id: @room.id), class: "w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+        <%= link_to "Manage Facilities", room_facilities_path(@room), class: "w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Facilities Section -->
+<div class="bg-white shadow rounded-lg">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="flex justify-between items-center">
+      <h3 class="text-lg font-medium text-gray-900">Room Facilities</h3>
+      <%= link_to "Add Facility", new_room_facility_path(@room), class: "text-sm text-blue-600 hover:text-blue-900" %>
+    </div>
+  </div>
+  <div class="px-6 py-4">
+    <% if @room.facilities.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @room.facilities.includes(:inventory).each do |facility| %>
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="text-sm font-medium text-gray-900"><%= facility.name %></h4>
+                <% if facility.inventory %>
+                  <p class="text-sm text-gray-500">Quantity: <%= facility.inventory.quantity %></p>
+                  <% if facility.inventory.quantity < 5 %>
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-1">
+                      Low Stock
+                    </span>
+                  <% end %>
+                <% else %>
+                  <p class="text-sm text-gray-500">No inventory data</p>
+                <% end %>
+              </div>
+              <div class="flex space-x-1">
+                <%= link_to "Edit", edit_room_facility_path(@room, facility), class: "text-xs text-blue-600 hover:text-blue-900" %>
+                <%= link_to "Delete", room_facility_path(@room, facility), method: :delete, confirm: "Are you sure?", class: "text-xs text-red-600 hover:text-red-900" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-8">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No facilities</h3>
+        <p class="mt-1 text-sm text-gray-500">Add facilities to this room to track inventory and amenities.</p>
+        <div class="mt-6">
+          <%= link_to "Add Facility", new_room_facility_path(@room), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<!-- Recent Bookings -->
+<div class="bg-white shadow rounded-lg mt-8">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-medium text-gray-900">Recent Bookings</h3>
+  </div>
+  <div class="px-6 py-4">
+    <% recent_bookings = @room.bookings.order(created_at: :desc).limit(5) %>
+    <% if recent_bookings.any? %>
+      <div class="flow-root">
+        <ul class="-my-5 divide-y divide-gray-200">
+          <% recent_bookings.each do |booking| %>
+            <li class="py-4">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <div class="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-medium text-blue-600"><%= booking.guest_name.first %></span>
+                  </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate">
+                    <%= booking.guest_name %>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    <%= booking.start_date %> to <%= booking.end_date %>
+                    • $<%= booking.payments.sum(:amount) %> total
+                  </p>
+                </div>
+                <div class="flex-shrink-0">
+                  <%= link_to "View", booking, class: "text-sm text-blue-600 hover:text-blue-900" %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-center py-4">No bookings for this room yet</p>
+    <% end %>
+  </div>
+</div>

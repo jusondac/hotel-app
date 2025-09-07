@@ -25,6 +25,14 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.save
+        # Create initial payment if amount is provided
+        if params[:payment_amount].present? && params[:payment_amount].to_f > 0
+          @booking.payments.create(
+            amount: params[:payment_amount].to_f,
+            payment_date: params[:payment_date] || Date.current
+          )
+        end
+
         format.html { redirect_to @booking, notice: "Booking was successfully created." }
         format.json { render :show, status: :created, location: @booking }
       else
