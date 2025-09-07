@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_014206) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_022800) do
   create_table "bookings", force: :cascade do |t|
     t.string "guest_name"
     t.date "start_date"
@@ -26,7 +26,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_014206) do
     t.integer "room_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "room_type_id", null: false
+    t.text "description"
     t.index ["room_id"], name: "index_facilities_on_room_id"
+    t.index ["room_type_id"], name: "index_facilities_on_room_type_id"
   end
 
   create_table "inventories", force: :cascade do |t|
@@ -34,6 +37,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_014206) do
     t.integer "facility_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "unit"
     t.index ["facility_id"], name: "index_inventories_on_facility_id"
   end
 
@@ -54,12 +58,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_014206) do
     t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
+  create_table "room_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.string "room_type"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "room_type_id"
+    t.index ["room_type_id"], name: "index_rooms_on_room_type_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -82,9 +95,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_014206) do
   end
 
   add_foreign_key "bookings", "rooms"
+  add_foreign_key "facilities", "room_types"
   add_foreign_key "facilities", "rooms"
   add_foreign_key "inventories", "facilities"
   add_foreign_key "payments", "bookings"
+  add_foreign_key "rooms", "room_types"
   add_foreign_key "sessions", "users"
   add_foreign_key "users", "roles"
 end

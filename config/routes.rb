@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :rooms do
     resources :facilities
   end
+  resources :room_types
   resources :bookings
   resources :facilities, only: [ :index ]
   resources :users, only: [ :index, :new, :create ]

@@ -14,10 +14,12 @@ class RoomsController < ApplicationController
   # GET /rooms/new
   def new
     @room = Room.new
+    @room_types = RoomType.all
   end
 
   # GET /rooms/1/edit
   def edit
+    @room_types = RoomType.all
   end
 
   # POST /rooms or /rooms.json
@@ -66,6 +68,6 @@ class RoomsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def room_params
-      params.require(:room).permit(:name, :room_type, :price)
+      params.require(:room).permit(:name, :room_type_id, :price)
     end
 end
