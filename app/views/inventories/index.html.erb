@@ -2,11 +2,9 @@
   <h1 class="text-3xl font-bold text-gray-900">Inventories</h1>
   <p class="mt-2 text-gray-600">Manage hotel inventory items</p>
 </div>
-
 <div class="mb-6">
   <%= link_to "New Inventory", new_inventory_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out" %>
 </div>
-
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
   <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
@@ -44,7 +42,6 @@
       <% end %>
     </tbody>
   </table>
-
   <% if @inventories.empty? %>
     <div class="text-center py-8">
       <p class="text-gray-500">No inventories found.</p>

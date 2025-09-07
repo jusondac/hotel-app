@@ -46,23 +46,23 @@
             </span>
           </div>
         </div>
-              <%= room_type.rooms.count %>
-            </span>
-          </div>
-        </div>
-      </div>
+        <%= room_type.rooms.count %>
+      </span>
     </div>
-  <% end %>
-  <% if @room_types.empty? %>
-    <div class="col-span-full text-center py-12">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-      </svg>
-      <h3 class="text-lg font-medium text-gray-900 mt-4">No room types found</h3>
-      <p class="text-gray-500 mt-2">Get started by creating your first room type.</p>
-      <div class="mt-6">
-        <%= link_to "Create Room Type", new_room_type_path, class: "bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" %>
-      </div>
+  </div>
+</div>
+</div>
+<% end %>
+<% if @room_types.empty? %>
+  <div class="col-span-full text-center py-12">
+    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+    </svg>
+    <h3 class="text-lg font-medium text-gray-900 mt-4">No room types found</h3>
+    <p class="text-gray-500 mt-2">Get started by creating your first room type.</p>
+    <div class="mt-6">
+      <%= link_to "Create Room Type", new_room_type_path, class: "bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" %>
     </div>
-  <% end %>
+  </div>
+<% end %>
 </div>

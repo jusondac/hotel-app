@@ -2,30 +2,25 @@
   <h1 class="text-3xl font-bold text-gray-900"><%= @inventory.name %></h1>
   <p class="mt-2 text-gray-600">Inventory Details</p>
 </div>
-
 <div class="bg-white shadow-md rounded-lg p-6">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <label class="block text-sm font-medium text-gray-700">Name</label>
       <p class="mt-1 text-sm text-gray-900"><%= @inventory.name %></p>
     </div>
-
     <div>
       <label class="block text-sm font-medium text-gray-700">Quantity</label>
       <p class="mt-1 text-sm text-gray-900"><%= @inventory.quantity %></p>
     </div>
-
     <div>
       <label class="block text-sm font-medium text-gray-700">Unit</label>
       <p class="mt-1 text-sm text-gray-900"><%= @inventory.unit %></p>
     </div>
-
     <div>
       <label class="block text-sm font-medium text-gray-700">Number of Rooms</label>
       <p class="mt-1 text-sm text-gray-900"><%= @inventory.rooms.count %></p>
     </div>
   </div>
-
   <% if @inventory.rooms.any? %>
     <div class="mt-8">
       <h3 class="text-lg font-medium text-gray-900 mb-4">Associated Rooms</h3>
@@ -41,7 +36,6 @@
     </div>
   <% end %>
 </div>
-
 <div class="mt-6 flex space-x-3">
   <%= link_to "Edit", edit_inventory_path(@inventory), class: "bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out" %>
   <%= link_to "Back to Inventories", inventories_path, class: "bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out" %>
